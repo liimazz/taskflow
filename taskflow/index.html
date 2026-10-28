@@ -1,0 +1,215 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#101114">
+
+    <meta name="description" content="TaskFlow — organize suas tarefas, acompanhe seu progresso e tenha mais controle sobre sua rotina.">
+
+    <title>TaskFlow — Gerenciador de tarefas</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <a class="brand" href="#" aria-label="TaskFlow, página inicial">
+                <span class="brand-icon">T</span>
+                <span>task<span class="brand-light">flow</span></span>
+            </a>
+
+            <div class="workspace-label">WORKSPACE</div>
+
+            <nav class="side-nav" aria-label="Navegação principal">
+                <button class="side-link active" data-filter="all">
+                    <span class="side-icon">▦</span>
+                    Todas as tarefas
+                    <span class="nav-count" id="nav-all">0</span>
+                </button>
+
+                <button class="side-link" data-filter="pending">
+                    <span class="side-icon">◷</span>
+                    Pendentes
+                    <span class="nav-count" id="nav-pending">0</span>
+                </button>
+
+                <button class="side-link" data-filter="completed">
+                    <span class="side-icon">✓</span>
+                    Concluídas
+                    <span class="nav-count" id="nav-completed">0</span>
+                </button>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="sidebar-tip">
+                    <span class="tip-icon">✦</span>
+                    <h3>Um passo de cada vez.</h3>
+                    <p>Pequenas tarefas concluídas constroem grandes resultados.</p>
+                </div>
+
+                <div class="sidebar-footer">
+                    <span class="status-dot"></span>
+                    Seus dados ficam neste navegador
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="breadcrumb">Workspace <span>/</span> Minhas tarefas</div>
+                <div class="today-label" id="today-label">Sua organização começa hoje.</div>
+            </header>
+
+            <section class="welcome">
+                <div>
+                    <span class="eyebrow">SEU ESPAÇO DE PRODUTIVIDADE</span>
+                    <h1>Vamos fazer acontecer<span>.</span></h1>
+                    <p>Organize suas prioridades e transforme planos em resultados.</p>
+                </div>
+
+                <div class="welcome-decoration" aria-hidden="true">
+                    <div class="decoration-circle">✓</div>
+                </div>
+            </section>
+
+            <section class="stats-grid" aria-label="Resumo das tarefas">
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <span>Total de tarefas</span>
+                        <span class="stat-icon">▤</span>
+                    </div>
+                    <strong id="stat-total">0</strong>
+                    <span class="stat-description">Tarefas cadastradas</span>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <span>Em andamento</span>
+                        <span class="stat-icon">◷</span>
+                    </div>
+                    <strong id="stat-pending">0</strong>
+                    <span class="stat-description">Ainda por fazer</span>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <span>Concluídas</span>
+                        <span class="stat-icon">✓</span>
+                    </div>
+                    <strong id="stat-completed">0</strong>
+                    <span class="stat-description">Tarefas finalizadas</span>
+                </article>
+
+                <article class="stat-card progress-card">
+                    <div class="stat-top">
+                        <span>Seu progresso</span>
+                        <span class="stat-icon">↗</span>
+                    </div>
+                    <strong id="stat-progress">0%</strong>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <span class="stat-description">Tarefas concluídas</span>
+                </article>
+            </section>
+
+            <section class="task-section">
+                <div class="section-title-row">
+                    <div>
+                        <h2 id="list-title">Todas as tarefas</h2>
+                        <p>Gerencie suas atividades em um só lugar.</p>
+                    </div>
+
+                    <button class="primary-button" id="new-task-button">
+                        <span>+</span> Nova tarefa
+                    </button>
+                </div>
+
+                <form class="task-form" id="task-form" hidden>
+                    <div class="form-heading">
+                        <div>
+                            <h3 id="form-title">Criar nova tarefa</h3>
+                            <p>Preencha as informações abaixo.</p>
+                        </div>
+                        <button type="button" class="icon-button" id="close-form" aria-label="Fechar formulário">✕</button>
+                    </div>
+
+                    <label for="task-title">Título da tarefa *</label>
+                    <input id="task-title" name="title" type="text" maxlength="100" placeholder="Ex.: Finalizar projeto do portfólio" required>
+
+                    <label for="task-description">Descrição</label>
+                    <textarea id="task-description" name="description" rows="3" maxlength="500" placeholder="Adicione detalhes sobre o que precisa fazer..."></textarea>
+
+                    <div class="form-row">
+                        <div class="form-field">
+                            <label for="task-priority">Prioridade</label>
+                            <select id="task-priority" name="priority">
+                                <option value="medium">Média</option>
+                                <option value="high">Alta</option>
+                                <option value="low">Baixa</option>
+                            </select>
+                        </div>
+
+                        <div class="form-field">
+                            <label for="task-date">Data de entrega</label>
+                            <input id="task-date" name="date" type="date">
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="secondary-button" id="cancel-form">Cancelar</button>
+                        <button type="submit" class="primary-button" id="save-task-button">Salvar tarefa</button>
+                    </div>
+                </form>
+
+                <div class="task-toolbar">
+                    <div class="filter-tabs" role="group" aria-label="Filtrar tarefas">
+                        <button class="filter-tab active" data-filter="all">Todas</button>
+                        <button class="filter-tab" data-filter="pending">Pendentes</button>
+                        <button class="filter-tab" data-filter="completed">Concluídas</button>
+                    </div>
+
+                    <label class="search-box">
+                        <span aria-hidden="true">⌕</span>
+                        <input type="search" id="task-search" placeholder="Buscar tarefas..." aria-label="Buscar tarefas">
+                    </label>
+                </div>
+
+                <div class="task-list-header">
+                    <span>MINHAS ATIVIDADES</span>
+                    <span id="visible-count">0 tarefas</span>
+                </div>
+
+                <div class="task-list" id="task-list" aria-live="polite"></div>
+
+                <div class="empty-state" id="empty-state">
+                    <div class="empty-icon">✓</div>
+                    <h3>Nenhuma tarefa por aqui</h3>
+                    <p>Adicione uma tarefa ou altere os filtros para encontrar suas atividades.</p>
+                    <button class="secondary-button" id="empty-add-button">Criar minha primeira tarefa</button>
+                </div>
+
+                <div class="list-footer">
+                    <span id="footer-summary">Tudo começa com uma tarefa.</span>
+                    <button class="text-button" id="clear-completed" hidden>Limpar concluídas</button>
+                </div>
+            </section>
+
+            <footer class="app-footer">
+                <span>TaskFlow © <span id="current-year"></span></span>
+                <span>Feito para organizar suas ideias.</span>
+            </footer>
+        </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
